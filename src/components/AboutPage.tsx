@@ -1,13 +1,13 @@
-// src/components/AboutPage.js
+// components/AboutPage.js
 import React from 'react';
 
 const AboutPage = () => {
   return (
     <div>
-      <h1>About Page</h1>
-      <p>This is the About Page.</p>
+      <h2>About Page</h2>
+      <p>Learn more about us!</p>
     </div>
   );
-};
+}
 
 export default AboutPage;

@@ -1,10 +1,10 @@
-// src/components/HomePage.js
+// src/components/HomePage.tsx
 import React from 'react';
 
-const HomePage = () => {
+const HomePage: React.FC = () => {
   return (
     <div>
-      <h1>Home Page</h1>
+      <h2>Home Page</h2>
       <p>Welcome to the Home Page!</p>
     </div>
   );

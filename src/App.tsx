@@ -2,8 +2,10 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import './App.css';
 import HomePage from './components/HomePage';
-import Dashboard from './components/Dashboard';
+import DashboardPage from './components/DashboardPage';
 import AboutPage from './components/AboutPage';
+import UploadFilePage from './components/UploadFilePage';
+import ContactPage from './components/ContactPage';
 
 const App: React.FC = () => {
   return (
@@ -19,7 +21,7 @@ const App: React.FC = () => {
                 <Link to="/dashboard">Dashboard</Link>
               </li>
               <li>
-                <Link to="/upload">Upload file</Link>
+                <Link to="/uploadfile">Upload file</Link>
               </li>
               <li>
                 <Link to="/about">About</Link>
@@ -34,7 +36,9 @@ const App: React.FC = () => {
           <div className="content">
             <Routes>
               <Route path="/" element={<HomePage />} />
-              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/dashboard" element={<DashboardPage />} />
+              <Route path="/uploadfile" element={<UploadFilePage />} />
+              <Route path="/contact" element={<ContactPage />} />
               <Route path="/about" element={<AboutPage />} />
               {/* Добавить другие маршруты по мере необходимости */}
             </Routes>

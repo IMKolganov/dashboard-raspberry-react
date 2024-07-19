@@ -2,13 +2,16 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState, AppDispatch } from '../store';
 import { fetchTemperature } from '../slices/temperatureSlice';
+import { fetchSoilMoisture } from '../slices/soilMoistureSlice';
 
 const Dashboard: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
-  const { temperature, loading, error } = useSelector((state: RootState) => state.temperature);
+  const { temperature, loading: tempLoading, error: tempError } = useSelector((state: RootState) => state.temperature);
+  const { soilMoisture, loading: moistureLoading, error: moistureError } = useSelector((state: RootState) => state.soilMoisture);
 
   useEffect(() => {
     dispatch(fetchTemperature());
+    dispatch(fetchSoilMoisture());
   }, [dispatch]);
 
   return (
@@ -20,22 +23,22 @@ const Dashboard: React.FC = () => {
       </div>
       
       <div id="dashboard-temperature" className="mb-3 p-3 border rounded">
-        {loading ? (
+        {tempLoading ? (
           <p>Loading...</p>
-        ) : error ? (
-          <p className="text-danger">{error}</p>
+        ) : tempError ? (
+          <p className="text-danger">{tempError}</p>
         ) : (
           <p>Temperature: {temperature} Humidify: 40%</p>
         )}
       </div>
       
       <div id="dashboard-soil-moisture" className="mb-3 p-3 border rounded">
-        {loading ? (
+        {moistureLoading ? (
           <p>Loading...</p>
-        ) : error ? (
-          <p className="text-danger">{error}</p>
+        ) : moistureError ? (
+          <p className="text-danger">{moistureError}</p>
         ) : (
-          <p>Soil moisture: {temperature}</p>
+          <p>Soil moisture: {soilMoisture}</p>
         )}
       </div>
 

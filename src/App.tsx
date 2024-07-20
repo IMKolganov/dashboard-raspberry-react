@@ -40,7 +40,6 @@ const App: React.FC = () => {
               <Route path="/uploadfile" element={<UploadFilePage />} />
               <Route path="/contact" element={<ContactPage />} />
               <Route path="/about" element={<AboutPage />} />
-              {/* Добавить другие маршруты по мере необходимости */}
             </Routes>
           </div>
         </main>
@@ -53,3 +52,8 @@ const App: React.FC = () => {
 }
 
 export default App;
+
+// docker stop dashboard-raspberry-react-container || true && \
+// docker rm dashboard-raspberry-react-container || true && \
+// docker build -t dashboard-raspberry-react . && \
+// docker run -d -p 3000:3000 --name dashboard-raspberry-react-container dashboard-raspberry-react;

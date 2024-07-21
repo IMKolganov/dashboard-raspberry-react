@@ -6,7 +6,7 @@ import { fetchSoilMoisture } from '../slices/soilMoistureSlice';
 
 const Dashboard: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
-  const { temperature, loading: tempLoading, error: tempError } = useSelector((state: RootState) => state.temperature);
+  const { temperature, humidity, loading: tempLoading, error: tempError } = useSelector((state: RootState) => state.temperature);
   const { soilMoisture, loading: moistureLoading, error: moistureError } = useSelector((state: RootState) => state.soilMoisture);
 
   useEffect(() => {
@@ -28,7 +28,7 @@ const Dashboard: React.FC = () => {
         ) : tempError ? (
           <p className="text-danger">{tempError}</p>
         ) : (
-          <p>Temperature: {temperature} Humidify: 40%</p>
+          <p>Temperature: {temperature !== null ? temperature : 'N/A'} Humidify: {humidity !== null ? humidity : 'N/A'}</p>
         )}
       </div>
       

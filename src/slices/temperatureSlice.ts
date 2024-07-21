@@ -5,12 +5,14 @@ import { countTryAttempts, hostAPI } from '../const/api';
 
 interface TemperatureState {
   temperature: number | null;
+  humidity: number | null;
   loading: boolean;
   error: string | null;
 }
 
 const initialState: TemperatureState = {
   temperature: null,
+  humidity: null,
   loading: false,
   error: null,
 };
@@ -29,7 +31,9 @@ axiosRetry(axios, {
 
 export const fetchTemperature = createAsyncThunk('temperature/fetchTemperature', async () => {
   const response = await axios.get(`${hostAPI}/api/GetTemperatureAndHumidify`);
-  return response.data.temperature;
+  // Extract temperature and humidity from the response data
+  const { temperature, humidity } = response.data.webservice_data;
+  return { temperature, humidity };
 });
 
 const temperatureSlice = createSlice({
@@ -44,11 +48,12 @@ const temperatureSlice = createSlice({
       })
       .addCase(fetchTemperature.fulfilled, (state, action) => {
         state.loading = false;
-        state.temperature = action.payload;
+        state.temperature = action.payload.temperature;
+        state.humidity = action.payload.humidity;
       })
       .addCase(fetchTemperature.rejected, (state) => {
         state.loading = false;
-        state.error = 'Failed to fetch temperature after multiple attempts';
+        state.error = 'Failed to fetch temperature and humidity after multiple attempts';
       });
   },
 });

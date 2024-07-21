@@ -5,7 +5,7 @@ FROM node:18-alpine
 WORKDIR /app
 
 # Устанавливаем curl
-RUN apt-get update && apt-get install -y curl
+RUN apk update && apk add --no-cache curl
 
 # Копируем package.json и package-lock.json (или yarn.lock)
 COPY package*.json ./

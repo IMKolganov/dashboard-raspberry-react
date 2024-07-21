@@ -4,6 +4,9 @@ FROM node:18-alpine
 # Устанавливаем рабочую директорию
 WORKDIR /app
 
+# Устанавливаем curl
+RUN apt-get update && apt-get install -y curl
+
 # Копируем package.json и package-lock.json (или yarn.lock)
 COPY package*.json ./
 

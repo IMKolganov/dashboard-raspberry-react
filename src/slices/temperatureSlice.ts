@@ -30,11 +30,17 @@ axiosRetry(axios, {
 });
 
 export const fetchTemperature = createAsyncThunk('temperature/fetchTemperature', async () => {
-  const response = await axios.get(`${hostAPI}/api/GetTemperatureAndHumidify`);
-  // Extract temperature and humidity from the response data
-  const { temperature, humidity } = response.data.webservice_data;
-  return { temperature, humidity };
+  try {
+    const response = await axios.get(`${hostAPI}/api/GetTemperatureAndHumidify`);
+    console.log('Response data:', response.data); // log
+    const { temperature, humidity } = response.data.webservice_data;
+    return { temperature, humidity };
+  } catch (error) {
+    console.error('Error fetching data:', error); // log error
+    throw error;
+  }
 });
+
 
 const temperatureSlice = createSlice({
   name: 'temperature',

@@ -1,0 +1,10 @@
+{
+  "json.schemas": [
+    {
+      "fileMatch": [
+        "/launch.json"
+      ],
+      "url": "http://json.schemastore.org/launch"
+    }
+  ]
+}

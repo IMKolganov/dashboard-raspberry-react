@@ -24,6 +24,14 @@
       "problemMatcher": [],
       "label": "npm: build",
       "detail": "react-scripts build"
+    },
+    {
+      "type": "npm",
+      "script": "install",
+      "group": "clean",
+      "problemMatcher": [],
+      "label": "npm: install",
+      "detail": "install dependencies from package"
     }
   ]
 }

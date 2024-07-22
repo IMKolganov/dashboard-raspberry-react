@@ -32,9 +32,14 @@ axiosRetry(axios, {
 export const fetchTemperature = createAsyncThunk('temperature/fetchTemperature', async () => {
   try {
     const response = await axios.get(`${hostAPI}/api/GetTemperatureAndHumidify`);
-    console.log('Response data:', response.data); // log
-    const { temperature, humidity } = response.data.webservice_data;
-    return { temperature, humidity };
+    const data = JSON.parse(response.data);
+
+    if (data && data.webservice_data) {
+      const { temperature, humidity } = data.webservice_data;
+      return { temperature, humidity };
+    } else {
+      throw new Error('Invalid response structure');
+    }
   } catch (error) {
     console.error('Error fetching data:', error); // log error
     throw error;

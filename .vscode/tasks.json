@@ -4,14 +4,26 @@
     {
       "label": "npm: start",
       "type": "shell",
-      "command": "npm start",
+      "command": "npm",
+      "args": [
+        "start"
+      ],
+      "isBackground": true,
+      "problemMatcher": [
+        "$tsc"
+      ],
       "group": {
         "kind": "build",
         "isDefault": true
-      },
+      }
+    },
+    {
+      "type": "npm",
+      "script": "build",
+      "group": "build",
       "problemMatcher": [],
-      "isBackground": true,
-      "dependsOn": []
+      "label": "npm: build",
+      "detail": "react-scripts build"
     }
   ]
 }

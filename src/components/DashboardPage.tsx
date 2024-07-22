@@ -51,14 +51,6 @@ const Dashboard: React.FC = () => {
         ) : moistureError ? (
           <p className="text-danger">{moistureError}</p>
         ) : (
-          <p>Soil moisture: {soilMoisture}</p>
-        )}
-
-        {moistureLoading ? (
-          <p>Loading...</p>
-        ) : moistureError ? (
-          <p className="text-danger">{moistureError}</p>
-        ) : (
           <p>Soil moisture: {soilMoisture !== null ? soilMoisture : 'N/A'}</p>
         )}
         <button onClick={handleRefreshSoilMoisture} className="btn btn-primary mt-2">

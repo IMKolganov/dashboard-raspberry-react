@@ -29,24 +29,25 @@ axiosRetry(axios, {
   },
 });
 
-// Асинхронная функция для получения данных о влажности почвы
+
 export const fetchSoilMoisture = createAsyncThunk('soilMoisture/fetchSoilMoisture', async () => {
   try {
     const response = await axios.get(`${hostAPI}/api/GetSoilMoisture`);
     const data = JSON.parse(response.data);
 
-    
-    if (data && data.webservice_data) {
-      const { soilMoisture } = data.webservice_data;
-      return { soilMoisture };
+    if (data && data.webservice_data && typeof data.webservice_data.soil_moisture === 'number') {
+      const { soil_moisture } = data.webservice_data;
+      return { soilMoisture: soil_moisture };
     } else {
+      console.error('Invalid response structure or missing data:', data);
       throw new Error('Invalid response structure');
     }
   } catch (error) {
-    console.error('Error fetching soil moisture:', error); // логирование ошибки
+    console.error('Error fetching data:', error);
     throw error;
   }
 });
+
 
 // Создание среза для управления состоянием влажности почвы
 const soilMoistureSlice = createSlice({

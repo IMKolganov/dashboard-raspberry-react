@@ -33,11 +33,11 @@ axiosRetry(axios, {
 export const fetchSoilMoisture = createAsyncThunk('soilMoisture/fetchSoilMoisture', async () => {
   try {
     const response = await axios.get(`${hostAPI}/api/GetSoilMoisture`);
-    const data = JSON.parse(response.data);
+    const data = response.data; 
 
-    if (data && data && typeof data.soil_moisture === 'number') {
-      const { soil_moisture } = data;
-      return { soilMoisture: soil_moisture };
+    if (data && typeof data.soilMoistureLevel === 'number') {
+      const { soilMoistureLevel } = data;
+      return { soilMoisture: soilMoistureLevel };
     } else {
       console.error('Invalid response structure or missing data:', data);
       throw new Error('Invalid response structure');

@@ -32,8 +32,8 @@ axiosRetry(axios, {
 export const fetchTemperature = createAsyncThunk('temperature/fetchTemperature', async () => {
   try {
     const response = await axios.get(`${hostAPI}/api/GetTemperatureAndHumidify`);
-    const data = JSON.parse(response.data);
-
+    const data = response.data; 
+    
     if (data && data) {
       const { temperature, humidity } = data;
       return { temperature, humidity };

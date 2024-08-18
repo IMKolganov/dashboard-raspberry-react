@@ -35,8 +35,8 @@ export const fetchSoilMoisture = createAsyncThunk('soilMoisture/fetchSoilMoistur
     const response = await axios.get(`${hostAPI}/api/GetSoilMoisture`);
     const data = JSON.parse(response.data);
 
-    if (data && data.webservice_data && typeof data.webservice_data.soil_moisture === 'number') {
-      const { soil_moisture } = data.webservice_data;
+    if (data && data && typeof data.soil_moisture === 'number') {
+      const { soil_moisture } = data;
       return { soilMoisture: soil_moisture };
     } else {
       console.error('Invalid response structure or missing data:', data);

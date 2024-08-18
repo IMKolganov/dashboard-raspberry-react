@@ -34,8 +34,8 @@ export const fetchTemperature = createAsyncThunk('temperature/fetchTemperature',
     const response = await axios.get(`${hostAPI}/api/GetTemperatureAndHumidify`);
     const data = JSON.parse(response.data);
 
-    if (data && data.webservice_data) {
-      const { temperature, humidity } = data.webservice_data;
+    if (data && data) {
+      const { temperature, humidity } = data;
       return { temperature, humidity };
     } else {
       throw new Error('Invalid response structure');

@@ -1,29 +1,29 @@
-# Используем официальный образ Node.js как базовый
+# Use the official Node.js image as a base
 FROM node:18-alpine
 
-# Устанавливаем рабочую директорию
+# Set the working directory
 WORKDIR /app
 
-# Устанавливаем curl
+# Install curl
 RUN apk update && apk add --no-cache curl
 
-# Копируем package.json и package-lock.json (или yarn.lock)
+# Copy package.json and package-lock.json (or yarn.lock)
 COPY package*.json ./
 
-# Устанавливаем зависимости
+# Install dependencies
 RUN npm install
 
-# Копируем весь код приложения
+# Copy all application code
 COPY . .
 
-# Собираем приложение
+# Build the application
 RUN npm run build
 
-# Устанавливаем переменную окружения для статического сервера
+# Set environment variable for the static server
 ENV PORT=3000
 
-# Устанавливаем команду для запуска сервера
+# Set the command to run the server
 CMD ["npx", "serve", "-s", "build", "-l", "3000"]
 
-# Открываем порт для приложения
+# Expose the port for the application
 EXPOSE 3000

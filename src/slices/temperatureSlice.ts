@@ -35,8 +35,11 @@ export const fetchTemperature = createAsyncThunk('temperature/fetchTemperature',
     const data = response.data; 
     
     if (data && data) {
-      const { temperature, humidity } = data;
-      return { temperature, humidity };
+      const { temperature, humidity, errorMessage } = data;
+      if (errorMessage) {
+        throw new Error(errorMessage);
+      }
+      return { temperature, humidity, errorMessage };
     } else {
       throw new Error('Invalid response structure');
     }
@@ -61,10 +64,11 @@ const temperatureSlice = createSlice({
         state.loading = false;
         state.temperature = action.payload.temperature;
         state.humidity = action.payload.humidity;
+        state.error = null;
       })
-      .addCase(fetchTemperature.rejected, (state) => {
+      .addCase(fetchTemperature.rejected, (state, action) => {
         state.loading = false;
-        state.error = 'Failed to fetch temperature and humidity after multiple attempts';
+        state.error = action.error.message || 'Failed to fetch temperature and humidity after multiple attempts';
       });
   },
 });

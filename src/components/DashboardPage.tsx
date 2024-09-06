@@ -66,7 +66,11 @@ const Dashboard: React.FC = () => {
 
       <div className="mb-3 p-3 border rounded">
         <p>Last pump: 12.12.2004 12:00</p>
-        <button className="btn btn-primary">BtnPump (1 second)</button>
+        <p> 
+        <button className="btn btn-primary">Start pump 1</button>
+        <button className="btn btn-primary">Start pump 2</button>
+        <button className="btn btn-primary">Start pump all</button>
+        </p>
       </div>
       
       <div className="mb-3 p-3 border rounded">

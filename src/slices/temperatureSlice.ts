@@ -1,7 +1,8 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import axiosRetry from 'axios-retry';
-import { countTryAttempts, hostAPI } from '../const/api';
+import { hostAPI, countTryAttempts, timeoutMs } from '../const/api';
+import { ErrorResponse } from '../models/ErrorResponse';
 
 interface TemperatureState {
   temperature: number | null;
@@ -17,38 +18,52 @@ const initialState: TemperatureState = {
   error: null,
 };
 
-// Configure axios to retry the request up to 5 times with a 1 second delay between retries
 axiosRetry(axios, {
   retries: countTryAttempts,
   retryDelay: (retryCount) => {
     console.log(`Retry attempt: ${retryCount}`);
-    return retryCount * 1000; // time in ms
+    return retryCount * timeoutMs;
   },
   retryCondition: (error) => {
-    return error.response?.status !== 200; // retry only if status is not 200
+    return error.response?.status !== 200;
   },
 });
 
 export const fetchTemperature = createAsyncThunk('temperature/fetchTemperature', async () => {
   try {
-    const response = await axios.get(`${hostAPI}/api/GetTemperatureAndHumidify`);
-    const data = response.data; 
-    
-    if (data && data) {
-      const { temperature, humidity, errorMessage } = data;
-      if (errorMessage) {
-        throw new Error(errorMessage);
-      }
-      return { temperature, humidity, errorMessage };
+    const response = await axios.get(`${hostAPI}/api/GetTemperatureAndHumidify?sensorId=1&useRandomValuesFotTest=true`);
+    const data = response.data;
+
+    // Проверяем поле `success`
+    if (!data.success) {
+      console.error('Request failed:', data.errorMessage);
+      throw new Error(data.errorMessage || 'Request failed without errorMessage');
+    }
+
+    // Проверяем наличие данных
+    if (data) {
+      const { temperature, humidity } = data.data;
+      return { temperature, humidity };
     } else {
       throw new Error('Invalid response structure');
     }
   } catch (error) {
-    console.error('Error fetching data:', error); // log error
-    throw error;
+    const axiosError = error as AxiosError<ErrorResponse>;
+
+    if (axiosError.response && axiosError.response.data) {
+      const errorData = axiosError.response.data;
+      console.error('Error fetching data:', errorData);
+
+      // Обрабатываем поля Message и Description
+      throw new Error(
+        `${errorData.Message || 'Unknown error'}${errorData.Description ? ' Description: ' + errorData.Description : ''}`
+      );
+    } else {
+      console.error('Network or unknown error:', error);
+      throw new Error(axiosError.message || 'Unknown error occurred');
+    }
   }
 });
-
 
 const temperatureSlice = createSlice({
   name: 'temperature',
@@ -75,5 +90,4 @@ const temperatureSlice = createSlice({
 
 export default temperatureSlice.reducer;
 
-// Add this line to ensure the file is recognized as a module
 export {};
